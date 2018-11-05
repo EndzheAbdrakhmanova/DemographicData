@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/LinearLayout_horizontal_match_wrap">
+
+        <ImageView
+            android:id="@+id/imageView_dob"
+            style="@style/ImageView_icons"
+            android:src="@drawable/calendar2" />
+
+        <EditText
+            android:id="@+id/editText_dob"
+            style="@style/EditText_data"
+            android:hint="@string/dob"
+            android:inputType="date" />
+
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/LinearLayout_horizontal_match_wrap">
+
+        <ImageView
+            android:id="@+id/imageView_sex"
+            style="@style/ImageView_icons"
+            android:src="@drawable/users" />
+
+        <EditText
+            android:id="@+id/editText_sex"
+            style="@style/EditText_data"
+            android:hint="@string/sex"
+            android:inputType="text" />
+    </LinearLayout>
+
+
+    <LinearLayout style="@style/LinearLayout_horizontal_match_wrap">
+
+        <ImageView
+            android:id="@+id/imageView_country"
+            style="@style/ImageView_icons"
+            android:src="@drawable/earth" />
+
+        <EditText
+            android:id="@+id/editText_country"
+            style="@style/EditText_data"
+            android:hint="@string/country"
+            android:inputType="text" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/LinearLayout_horizontal_match_wrap">
+
+        <ImageView
+            android:id="@+id/imageView_date"
+            style="@style/ImageView_icons"
+            android:src="@drawable/calendar2" />
+
+        <EditText
+            android:id="@+id/editText_date"
+            style="@style/EditText_data"
+            android:hint="@string/date"
+            android:inputType="date" />
+
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout style="@style/LinearLayoutButton">
+
+                <Button
+                    android:id="@+id/btn_getRank"
+                    style="@style/Button_result"
+                    android:text="@string/get_rank"
+                     />
+
+                <TextView
+                    android:id="@+id/textView_rank"
+                    style="@style/TextView_result"
+                    android:text="TEST" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinearLayoutButton">
+
+                <Button
+                    android:id="@+id/btn_getRankToday"
+                    style="@style/Button_result"
+                    android:text="Rank today"
+                   />
+
+                <TextView
+                    android:id="@+id/textView_rankToday"
+                    style="@style/TextView_result" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinearLayoutButton">
+
+                <Button
+                    android:id="@+id/btn_get_life_expectancy"
+                    style="@style/Button_result"
+                    android:text="@string/life_expectancy"
+                     />
+
+                <TextView
+                    android:id="@+id/textView_life_expectancy"
+
+                    style="@style/TextView_result" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinearLayoutButton">
+
+                <Button
+                    android:id="@+id/btn_get_population"
+                    android:text="Population"
+                    style="@style/Button_result" />
+
+                <TextView
+                    android:id="@+id/textView_population"
+                    style="@style/TextView_result" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/LinearLayout_horizontal_match_wrap">
+                <Button
+                    android:id="@+id/btnWriteFile"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="19dp"
+                    android:text="Write file"
+                    android:textSize="14sp"
+                    android:layout_weight="1"/>
+                <Button
+                    android:id="@+id/btnReadFile"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="10dp"
+                    android:text="Read file"
+                    android:textSize="14sp"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

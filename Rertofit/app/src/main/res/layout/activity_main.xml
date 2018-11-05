@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@color/colorText">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="217dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/image3" />
+
+
+
+            <Button
+                android:id="@+id/btnQuery1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:background="@color/colorPrimary"
+                android:drawableLeft="@drawable/icon1"
+                android:gravity="left|center_vertical"
+                android:padding="6dp"
+                android:layout_margin="10dp"
+                android:text="@string/query1"
+                android:textColor="@color/colorBlack"
+                android:textSize="13sp"
+
+                />
+
+
+
+
+
+
+</LinearLayout>

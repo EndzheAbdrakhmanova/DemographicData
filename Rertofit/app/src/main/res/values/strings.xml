@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">App</string>
+    <string name="dob">dob</string>
+    <string name="sex">sex</string>
+    <string name="country">country</string>
+    <string name="date">date</string>
+    <string name="get_rank">Rank</string>
+
+    <string name="enter_message">Enter message</string>
+    <string name="android_room_example">Android Room Example</string>
+    <string name="query1">Get a demographic data of the country</string>
+    <string name="query2">Retrieves the mortality distribution tables for the given country, sex and age.</string>
+    <string name="result">Result</string>
+
+    <string name="population_today_and_tomorrow">Population today and tomorrow</string>
+    <string name="life_expectancy">Life expectancy</string>
+</resources>

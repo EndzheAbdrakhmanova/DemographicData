@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="9"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/textViewDob"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Testing the font"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/textViewSex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Testing the font"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/textViewCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Testing the font"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textViewDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Testing the font"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorText" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewRank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:contentDescription="@string/app_name"
+        android:text="Test"
+        android:layout_gravity="center"/>
+    <ImageView
+        android:id="@+id/imageViewDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/delete"/>
+
+
+</LinearLayout>
