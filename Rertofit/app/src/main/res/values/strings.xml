@@ -14,4 +14,8 @@
 
     <string name="population_today_and_tomorrow">Population today and tomorrow</string>
     <string name="life_expectancy">Life expectancy</string>
+    <string name="rank_today">Rank today</string>
+    <string name="read_file">Read file</string>
+    <string name="write_file">Write file</string>
+    <string name="population">Population</string>
 </resources>

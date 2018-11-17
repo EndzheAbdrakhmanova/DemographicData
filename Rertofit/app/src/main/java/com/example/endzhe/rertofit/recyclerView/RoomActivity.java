@@ -1,6 +1,8 @@
 package com.example.endzhe.rertofit.recyclerView;
 
 import android.arch.lifecycle.Observer;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,6 +41,14 @@ public class RoomActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        SharedPreferences.Editor editor=PreferenceManager.getDefaultSharedPreferences(this).edit();
+        editor.putString("last activity",getClass().getSimpleName());
+        editor.apply();
+        super.onResume();
     }
 
 }

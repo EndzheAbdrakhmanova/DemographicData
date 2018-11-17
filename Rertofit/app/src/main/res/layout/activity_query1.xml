@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/toolbar" />
+
+    </android.support.design.widget.AppBarLayout>
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="8dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout style="@style/LinearLayout_horizontal_match_wrap">
 
@@ -81,6 +96,8 @@
                     android:id="@+id/btn_getRank"
                     style="@style/Button_result"
                     android:text="@string/get_rank"
+                    app:elevation="0dp"
+
                      />
 
                 <TextView
@@ -95,7 +112,8 @@
                 <Button
                     android:id="@+id/btn_getRankToday"
                     style="@style/Button_result"
-                    android:text="Rank today"
+                    android:text="@string/rank_today"
+                    app:elevation="0dp"
                    />
 
                 <TextView
@@ -110,6 +128,7 @@
                     android:id="@+id/btn_get_life_expectancy"
                     style="@style/Button_result"
                     android:text="@string/life_expectancy"
+                    app:elevation="0dp"
                      />
 
                 <TextView
@@ -123,7 +142,8 @@
 
                 <Button
                     android:id="@+id/btn_get_population"
-                    android:text="Population"
+                    android:text="@string/population"
+                    app:elevation="0dp"
                     style="@style/Button_result" />
 
                 <TextView
@@ -138,18 +158,20 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="19dp"
-                    android:text="Write file"
+                    android:text="@string/write_file"
                     android:textSize="14sp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    app:elevation="0dp"/>
                 <Button
                     android:id="@+id/btnReadFile"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="10dp"
-                    android:text="Read file"
+                    android:text="@string/read_file"
                     android:textSize="14sp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    app:elevation="0dp"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -157,3 +179,4 @@
 
 
 </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
