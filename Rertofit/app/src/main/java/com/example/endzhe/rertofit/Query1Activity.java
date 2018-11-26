@@ -1,8 +1,12 @@
 package com.example.endzhe.rertofit;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -19,7 +23,10 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,6 +50,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
 
 
 import butterknife.BindView;
@@ -60,10 +71,18 @@ public class Query1Activity extends AppCompatActivity {
     final static String DIR_SD = "NEW_DIR";
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 0;
 
+    int myYear=2018;
+    String myMonth="01";
+    String myDay="01";
+    final int DIALOG_CODE_rankToday=3;//rank today
+    final int DIALOG_CODE_rank=4;//rank
+    final int DIALOG_CODE_life=5;//life exp.
+    final int DIALOG_CODE_population=6;//population
 
     ActivateLocation activateLocation;
     SharedPreferences sharedPreferences;
 
+    String []sex={"male","female"};
 
 
     //---TextView--
@@ -84,10 +103,10 @@ public class Query1Activity extends AppCompatActivity {
     EditText editText_dob;
 
     @BindView(R.id.editText_country)
-    EditText editText_country;
+    AutoCompleteTextView editText_country;
 
     @BindView(R.id.editText_sex)
-    EditText editText_sex;
+    AutoCompleteTextView editText_sex;
 
     @BindView(R.id.editText_date)
     EditText editText_date;
@@ -128,11 +147,36 @@ public class Query1Activity extends AppCompatActivity {
     private final Api api = Controller.createApi();
 
     @Override
+    protected void onStart() {
+        //checkAndRequestGeoPermission();
+        super.onStart();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_query1);
         ButterKnife.bind(this);
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////
+        //адаптер для заполнения пола
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>
+                        (this,R.layout.support_simple_spinner_dropdown_item,sex);
+        editText_sex.setAdapter(adapter);
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////
+        //получаем массив из ресурса
+        String countries[]=getResources().getStringArray(R.array.country);
+        List<String> countryList= Arrays.asList(countries);
+        ArrayAdapter<String> adapterForCountry =
+                new ArrayAdapter<>
+                        (this,R.layout.support_simple_spinner_dropdown_item,countryList);
+        editText_country.setAdapter(adapterForCountry);
+        //////////////////////////////////////////////////////////////////////////////////////////////////
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -145,7 +189,7 @@ public class Query1Activity extends AppCompatActivity {
             }
         });
 
-        checkAndRequestGeoPermission();
+        //checkAndRequestGeoPermission();
 
         loadValue();
 
@@ -154,33 +198,178 @@ public class Query1Activity extends AppCompatActivity {
     //Обработчик долгого нажатия
     //Добавляет в бд результат 1-ого запроса
     //и открывает новое активити с recyclerView
-    @OnLongClick(R.id.btn_getRank)
+    @OnLongClick({R.id.btn_getRank,R.id.imageView_dob})
     boolean onLongClick(View v) {
-        Context context = v.getContext();
-        final String country = editText_country.getText().toString();
-        final String dob = editText_dob.getText().toString();
-        final String sex = editText_sex.getText().toString();
-        final String date = editText_date.getText().toString();
+        switch (v.getId()){
+            case R.id.btn_getRank:
+                Context context = v.getContext();
+                final String country = editText_country.getText().toString();
+                final String dob = editText_dob.getText().toString();
+                final String sex = editText_sex.getText().toString();
+                final String date = editText_date.getText().toString();
 
-        final String rank = textView_rank.getText().toString();
-        DataModel content = new DataModel(dob, sex, country, date, rank);
+                final String rank = textView_rank.getText().toString();
+                DataModel content = new DataModel(dob, sex, country, date, rank);
 
-        //добавление
-        DataDao messageDao = (DataDao) AppDatabase.getInstance(context).dataDao();
-        messageDao.insertDataModel(content);
+                //добавление
+                DataDao messageDao = (DataDao) AppDatabase.getInstance(context).dataDao();
+                messageDao.insertDataModel(content);
 
-        Intent intent = new Intent(context, RoomActivity.class);
-        startActivity(intent);
-        Toast.makeText(context, "Write to Database query 1", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, RoomActivity.class);
+                startActivity(intent);
+                Toast.makeText(context, "Write to Database query 1", Toast.LENGTH_SHORT).show();
+                //return true;
+            case R.id.imageView_dob:
+               // showDialog(1);
+
+
+        }
         return true;
     }
+
+    protected Dialog onCreateDialog(int id){
+        switch (id) {
+            case 1:
+                DatePickerDialog datePickerDialog1 =
+                        new DatePickerDialog(this, myCallBack1, myYear,
+                                Integer.parseInt(myMonth), Integer.parseInt(myDay));
+                return datePickerDialog1;
+
+            case 2:
+                DatePickerDialog datePickerDialog2 =
+                        new DatePickerDialog(this, myCallBack2, myYear,
+                                Integer.parseInt(myMonth), Integer.parseInt(myDay));
+                return datePickerDialog2;
+
+            case DIALOG_CODE_rankToday:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Description")
+                        .setMessage("Calculates the world population rank" +
+                                " of a person with the given date of birth, " +
+                                "sex and country of origin as of today.")
+                        .setIcon(R.drawable.search)
+                        .setPositiveButton("Ok,thanks",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+                return builder.create();
+                //break;
+            case DIALOG_CODE_rank:
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+                builder2.setTitle("Description")
+                        .setMessage("Calculates the world population rank of a person with the given date of birth," +
+                                " sex and country of origin on a certain date.")
+                        .setIcon(R.drawable.search)
+                        .setPositiveButton("Ok,thanks",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+                return builder2.create();
+            case DIALOG_CODE_population:
+                AlertDialog.Builder builder3 = new AlertDialog.Builder(this);
+                builder3.setTitle("Description")
+                        .setMessage("Determines total population for a given country on a given date." +
+                                " Valid dates are 2013-01-01 to 2022-12-31.")
+                        .setIcon(R.drawable.search)
+                        .setPositiveButton("Ok,thanks",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+                return builder3.create();
+
+            case DIALOG_CODE_life:
+                AlertDialog.Builder builder4 = new AlertDialog.Builder(this);
+                builder4.setTitle("Description")
+                        .setMessage("Calculate total life expectancy of a person with given sex, country, and date of birth.\n" +
+                                "\n" +
+                                "Note that this function is implemented based on the remaining life expectancy " +
+                                "by picking a reference date based on an age of 35 years." +
+                                " It is therefore of limited accuracy.")
+                        .setIcon(R.drawable.search)
+                        .setPositiveButton("Ok,thanks",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+                return builder4.create();
+        }
+
+        return super.onCreateDialog(id);
+    }
+
+    DatePickerDialog.OnDateSetListener myCallBack2=new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            myYear=year;
+            int newMonth=month+1;
+            myMonth=""+newMonth;
+            myDay=""+dayOfMonth;
+
+            //myMonth+1 так как январь = 0
+            if(dayOfMonth<10)
+                myDay="0"+dayOfMonth;
+            if(newMonth<10)
+                myMonth="0"+newMonth;
+            editText_date.setText(myYear+"-"+myMonth+"-"+myDay);
+        }
+    };
+    DatePickerDialog.OnDateSetListener myCallBack1=new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            myYear=year;
+            int newMonth=month+1;
+            myMonth=""+newMonth;
+            myDay=""+dayOfMonth;
+
+            //myMonth+1 так как январь = 0
+            if(dayOfMonth<10)
+                 myDay="0"+dayOfMonth;
+            if(newMonth<10)
+                myMonth="0"+newMonth;
+            editText_dob.setText(myYear+"-"+myMonth+"-"+myDay);
+        }
+    };
+
+
 
 
     @OnClick({R.id.btn_getRank, R.id.btn_getRankToday,
             R.id.btn_get_life_expectancy, R.id.btn_get_population,
-            R.id.btnWriteFile, R.id.btnReadFile,R.id.imageView_country})
+            R.id.btnWriteFile, R.id.btnReadFile,
+            R.id.imageView_country,
+            R.id.editText_dob,R.id.editText_date,
+            R.id.textView_rankToday,R.id.textView_rank,R.id.textView_population,R.id.textView_life_expectancy})
     void onSaveClick(View v) {
         switch (v.getId()) {
+            case R.id.textView_rank:
+                showDialog(DIALOG_CODE_rank);
+                break;
+            case R.id.textView_rankToday:
+                showDialog(DIALOG_CODE_rankToday);
+                break;
+            case R.id.textView_population:
+                showDialog(DIALOG_CODE_population);
+                break;
+            case R.id.textView_life_expectancy:
+                showDialog(DIALOG_CODE_life);
+                break;
+            case R.id.editText_dob:
+                showDialog(1);
+                break;
+            case R.id.editText_date:
+                showDialog(2);
+                break;
             case R.id.btn_getRank:
                 //создание запроса
                 Call<RankModel> call = api.getRank(
@@ -254,11 +443,14 @@ public class Query1Activity extends AppCompatActivity {
                 //отправка запроса(асинхронный)
                 call3.enqueue(new Callback<LifeExpectancyModel>() {
                     @Override
-                    public void onResponse(Call<LifeExpectancyModel> call, Response<LifeExpectancyModel> response) {
+                    public void onResponse(Call<LifeExpectancyModel> call,
+                                           Response<LifeExpectancyModel> response) {
                         if (response.isSuccessful()) {
                             LifeExpectancyModel body = response.body();
-                            String life_expectancy = body.getTotal_life_expectancy();
-                            String answer = life_expectancy.toString();
+                            Float life_expectancy = body.getTotal_life_expectancy();
+                            //округление
+                            String  answer = String.valueOf((int)Math.round(life_expectancy));
+                            //String answer2=String.valueOf(answer);
                             textView_life_expectancy.setText(answer);
                         } else {
                             notSuccessful();
@@ -374,7 +566,7 @@ public class Query1Activity extends AppCompatActivity {
                     + "RESULT\n"
                     + "Rank:" + textView_rank.getText().toString() + "\n"
                     + "Rank today:" + textView_rankToday.getText().toString() + "\n"
-                    + "Life expectancy.:" + textView_life_expectancy.getText().toString() + "\n"
+                    + "Life expectancy:" + textView_life_expectancy.getText().toString() + "\n"
                     + "Population:" + textView_population.getText().toString() + "\n"
                     + "---------------------------------------\n\n");
             // закрываем поток
@@ -464,7 +656,7 @@ public class Query1Activity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        activateLocation.unregisterLocationListener();
+//        activateLocation.unregisterLocationListener();
         Log.v(LOG,"Отписка от изменений геопозиции");
         saveValue();
         super.onDestroy();

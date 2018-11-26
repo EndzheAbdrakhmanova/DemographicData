@@ -39,9 +39,21 @@ public class ActivateLocation implements LocationListener {
 
         String bestProvider = locationManager.getBestProvider(criteria, false);
         Log.v(LOG, "Best provider: " + bestProvider);
+
         if (bestProvider != null) {
+
             // Получаем последнюю доступную позицию
             Location lastKnownLocation = locationManager.getLastKnownLocation(bestProvider);
+
+
+
+            // Подписываемся на обновления
+            locationManager.requestLocationUpdates(
+                    bestProvider, // провайдер, на обновления которого мы подписываемся
+                    3600000, // минимальное время в миллисекундах, спустя которое мы будем получать обновления
+                    100, // минимальное расстояние в метрах, спустя которое мы получим обновление
+                    this//listener, который будет вызываться при обновлении
+            );
 
             Log.v(LOG, "Last location: " + lastKnownLocation);
             if (lastKnownLocation != null) {
@@ -72,15 +84,8 @@ public class ActivateLocation implements LocationListener {
                 Log.d(LOG, "error,lastKnownLocation -null");
                 Toast.makeText(context, "Can't use geolocation ", Toast.LENGTH_SHORT).show();
             }
-            // Подписываемся на обновления
-            locationManager.requestLocationUpdates(
-                    bestProvider, // провайдер, на обновления которого мы подписываемся
-                    0, // минимальное время в миллисекундах, спустя которое мы будем получать обновления
-                    0, // минимальное расстояние в метрах, спустя которое мы получим обновление
-                    this//listener, который будет вызываться при обновлении
-            );
-        }
 
+        }
 
     }
 

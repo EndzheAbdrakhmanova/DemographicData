@@ -20,28 +20,51 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="25dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="217dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:scaleType="fitStart"
-            android:src="@drawable/image3" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="35dp"
+            android:src="@drawable/globus" />
 
         <Button
             android:id="@+id/btnQuery1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginLeft="7dp"
-            android:layout_marginRight="7dp"
-            android:background="@color/colorPrimary"
-            android:drawableLeft="@drawable/icon1"
+            android:layout_marginTop="20dp"
+
+            android:background="@null"
+            android:drawableLeft="@drawable/poisk"
             android:gravity="left|center_vertical"
             android:padding="6dp"
             android:text="@string/query1"
             android:textColor="@color/colorBlack"
             android:textSize="13sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/document"
+                android:layout_weight="1"
+                android:layout_marginTop="20dp"
+                />
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/grahic"
+                android:layout_weight="1"
+                android:layout_marginTop="20dp"
+                />
+
+        </LinearLayout>
     </LinearLayout>
 
 

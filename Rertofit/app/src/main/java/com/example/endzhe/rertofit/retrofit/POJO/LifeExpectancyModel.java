@@ -13,10 +13,10 @@ public class LifeExpectancyModel {
     private String sex;
 
     @SerializedName("total_life_expectancy")
-    private String total_life_expectancy;
+    private Float total_life_expectancy;
 
     //--SETTER--
-    public void setTotal_life_expectancy(String total_life_expectancy) {
+    public void setTotal_life_expectancy(Float total_life_expectancy) {
         this.total_life_expectancy = total_life_expectancy;
     }
 
@@ -33,7 +33,7 @@ public class LifeExpectancyModel {
     }
 
     //--Getter--
-    public String getTotal_life_expectancy() {
+    public Float getTotal_life_expectancy() {
         return total_life_expectancy;
     }
 

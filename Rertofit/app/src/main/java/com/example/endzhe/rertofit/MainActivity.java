@@ -1,12 +1,20 @@
 package com.example.endzhe.rertofit;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -17,15 +25,17 @@ import android.widget.Button;
 import com.example.endzhe.rertofit.recyclerView.RoomActivity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Log.d("create","activity created");
         Button btnQuery1 = (Button) findViewById(R.id.btnQuery1);
         btnQuery1.setOnClickListener(this);
 
@@ -41,25 +51,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (lastActivity.equals(RoomActivity.class.getSimpleName())) {
                 startActivity(new Intent(this, RoomActivity.class));
             }
-//            else {
-//                startActivity(new Intent(this, MainActivity.class));
-//            }
-//            Class <?> cls= null;
-//            try {
-//                cls = Class.forName(lastActivity);
-//                Intent intentActivity=new Intent(this,cls);
-//                startActivity(intentActivity);
-//            } catch (ClassNotFoundException e) {
-//                e.printStackTrace();
-//            }
+
 
         }
 
-        SensorManager sensorManager=(SensorManager)getSystemService(Context.SENSOR_SERVICE);
-        List<Sensor> sensorList=sensorManager.getSensorList(Sensor.TYPE_PRESSURE);
-        for (int i=0;i<sensorList.size();i++){
-            Log.v("list","сенсор:"+sensorList.get(i).getName());
-        }
+
+
+////Установление напоминания
+        //доступ к службе Alarm Service
+        AlarmManager am=(AlarmManager)getSystemService((Context.ALARM_SERVICE));
+        Intent notificationIntent = new Intent(this,HandlerAlarmManager.class);
+        PendingIntent contentIntent=PendingIntent.getBroadcast(MainActivity.this,
+                1,notificationIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT);
+
+        //удаляем все сигнализации
+        am.cancel(contentIntent);
+        //задаем повторяющиеся сигнализации с фиксированным интервалом
+        am.setRepeating(AlarmManager.RTC,System.currentTimeMillis()+
+                AlarmManager.INTERVAL_FIFTEEN_MINUTES/15,AlarmManager.INTERVAL_FIFTEEN_MINUTES/15,
+                contentIntent);
+
 
 
 
@@ -74,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+
     @Override
     protected void onResume() {
 
@@ -83,4 +97,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editor.apply();
         super.onResume();
     }
-}
+
+    }

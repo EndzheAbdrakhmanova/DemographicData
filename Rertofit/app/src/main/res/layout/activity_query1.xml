@@ -43,11 +43,12 @@
             style="@style/ImageView_icons"
             android:src="@drawable/users" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/editText_sex"
             style="@style/EditText_data"
             android:hint="@string/sex"
-            android:inputType="text" />
+            android:inputType="text"
+            android:completionThreshold="0"/>
     </LinearLayout>
 
 
@@ -58,11 +59,12 @@
             style="@style/ImageView_icons"
             android:src="@drawable/earth" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/editText_country"
             style="@style/EditText_data"
             android:hint="@string/country"
-            android:inputType="text" />
+            android:inputType="text"
+            android:completionThreshold="1"/>
     </LinearLayout>
 
     <LinearLayout style="@style/LinearLayout_horizontal_match_wrap">
@@ -103,7 +105,7 @@
                 <TextView
                     android:id="@+id/textView_rank"
                     style="@style/TextView_result"
-                    android:text="TEST" />
+                     />
             </LinearLayout>
 
             <LinearLayout
